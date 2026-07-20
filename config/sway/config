@@ -85,7 +85,7 @@ seat seat0 hide_cursor 5000
 # Applauncher
 bindsym $mod+w exec librewolf
 bindsym $mod+s exec spotify
-bindsym $mod+i exec isaac
+bindsym $mod+i exec steam -silent -applaunch 250900
 
 # Input configuration
 input * {
@@ -132,6 +132,9 @@ assign [app_id="librewolf"] $ws2
 # assign [app_id="virt-manager"] $wsF8
 assign [class="spotify"] $ws4
 assign [app_id="spotify"] $ws4
+for_window [class="Spotify"] move to workspace $ws4
+for_window [class="steam"] move to workspace $ws9
+
 assign [class="discord"] $ws9
 assign [app_id="org.telegram.desktop"] $ws9
 for_window [app_id="pavucontrol"] floating enable

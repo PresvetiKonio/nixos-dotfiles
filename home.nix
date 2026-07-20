@@ -18,8 +18,10 @@ in
   home.sessionPath = [ "$HOME/.local/bin" ];
   programs.git = {
     enable = true;
-    userName = "PresvetiKonio";
-    userEmail = "vladimirfilipov1234@gmail.com";
+    settings = {
+      user.name = "PresvetiKonio";
+      user.email = "vladimirfilipov1234@gmail.com";
+    };
   };
   home.stateVersion = "26.05";
 
@@ -46,6 +48,29 @@ in
   home.file.".local/bin".source = local/bin;
 
   fonts.fontconfig.enable = true;
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+  };
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwaita-dark";
+      icon-theme = "Papirus";
+    };
+  };
+
 
   wayland.windowManager.sway = {
     enable = true;
@@ -78,14 +103,32 @@ in
     pamixer
     brillo
     mako
+    autotiling-rs
 
     zsh
     oh-my-zsh
     zsh-powerlevel10k
     fzf
 
+    thunar
+    thunar-volman
+    thunar-archive-plugin
+
+
     fastfetch
 
     librewolf-bin
+    firefox
+
+    spotify
+
+    (writeShellApplication
+      {
+        name = "ns";
+        runtimeInputs = with pkgs; [ fzf nix-search-tv ];
+        text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
+      }
+    )
+
   ];
 }

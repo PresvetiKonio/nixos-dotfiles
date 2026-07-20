@@ -15,10 +15,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "shitbox"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+#  hardware.bluetooth.enable = true;
+#  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Sofia";
@@ -36,10 +38,25 @@
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "caps:escape";
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="backlight", ACTION=="add", TAG+="uaccess"
+  '';
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # configuration.nix
   services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "auto";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend-then-hibernate";
     HandleLidSwitchExternalPower = "lock";
@@ -63,10 +80,19 @@
   services.pipewire = {
     enable = true;
     pulse.enable = true;
+    audio.enable = true;
+    alsa.enable = true;
   };
+  security.rtkit.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  services = {
+    libinput.enable = true;
+    udisks2.enable = true;
+    gvfs.enable = true;
+    tumbler.enable = true;
+  };
+  programs.dconf.enable = true;
+  programs.xfconf.enable = true;
   services.displayManager.ly.enable = true;
   security.polkit.enable = true;
   programs.sway.enable = true;
@@ -76,10 +102,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vladko = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" "input" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
     packages = with pkgs; [
       tree
+
     ];
   };
 
@@ -101,6 +128,10 @@
     vim
     wget
     git
+    brightnessctl
+
+    gnome-themes-extra
+    papirus-icon-theme
   ];
 
   fonts.packages = with pkgs; [
