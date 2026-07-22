@@ -19,8 +19,8 @@
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
-#  hardware.bluetooth.enable = true;
-#  services.blueman.enable = true;
+  #  hardware.bluetooth.enable = true;
+  #  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Sofia";

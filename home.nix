@@ -46,6 +46,7 @@ in
   home.file.".config/sway".source = config/sway; # sway is stubborn
   home.file.".zshenv".source = config/.zshenv;
   home.file.".local/bin".source = local/bin;
+  home.file.".local/share/fonts".source = local/fonts;
 
   fonts.fontconfig.enable = true;
 
@@ -88,6 +89,7 @@ in
     nixpkgs-fmt
     nodejs
     gcc
+    python3
 
     kitty
 
@@ -119,6 +121,7 @@ in
 
     librewolf-bin
     firefox
+    qutebrowser
 
     spotify
 
@@ -129,6 +132,7 @@ in
         text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
       }
     )
+
 
   ];
 }
