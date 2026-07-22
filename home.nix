@@ -10,9 +10,13 @@ let
     kitty = "kitty";
     zsh = "zsh";
     wallpapers = "wallpapers";
+    mako = "mako";
   };
 in
 {
+
+imports = [ ./modules/pywalfox.nix ];
+
   home.username = "vladko";
   home.homeDirectory = "/home/vladko";
   home.sessionPath = [ "$HOME/.local/bin" ];
@@ -71,6 +75,11 @@ in
       icon-theme = "Papirus";
     };
   };
+  programs.pywalfox = {
+    enable = true;
+    browsers = [ "firefox" "librewolf" ]; # default, drop what you don't use
+  };
+
 
 
   wayland.windowManager.sway = {
@@ -122,6 +131,8 @@ in
     librewolf-bin
     firefox
     qutebrowser
+
+    pywalfox-native
 
     spotify
 

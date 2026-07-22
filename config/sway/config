@@ -11,15 +11,23 @@ set $screenshot grim ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
 set $copy_screen ~/.local/bin/copy_screen_wayland select
 set $copy_screen_whole ~/.local/bin/copy_screen_wayland
 set $screenclip slurp | grim -g - ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
-set $background $(cat ~/.cache/wal/wal)
+#set $background $(cat ~/.cache/wal/wal)
 
+include ~/.cache/wal/colors-sway
 
-set $cl_high #009ddc
-set $cl_indi #d9d8d8
-set $cl_back #231f20
-set $cl_fore #d9d8d8
-set $cl_urge #ee2e24
-set $cl_bord #665c54
+#set $cl_high #009ddc
+#set $cl_indi #d9d8d8
+#set $cl_back #231f20
+#set $cl_fore #d9d8d8
+#set $cl_urge #ee2e24
+#set $cl_bord #665c54
+
+set $cl_high $color4
+set $cl_indi $color7
+set $cl_back $background
+set $cl_fore $foreground
+set $cl_urge $color1
+set $cl_bord $color8
 
 # Colors                border   bg       text     indi     childborder
 client.focused          $cl_bord $cl_bord $cl_fore $cl_indi $cl_bord
@@ -120,7 +128,8 @@ bindgesture {
 }
 
 # Output configuration
- output * bg $background fill
+ #output * bg $background fill
+ output * bg $wallpaper fill
 # exec swaybg -i ~/.config/wallpapers/autumn_forest.png  -m fill
 # set $wallpapers_path ~/.config/wallpapers
 # output * bg $(find $wallpapers_path -type f | shuf -n 1) fill
