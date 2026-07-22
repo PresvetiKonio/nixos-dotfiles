@@ -3,14 +3,16 @@
 
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-26.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    #lazyvim.url = "github:pfassina/lazyvim-nix";
+    lazyvim.url = "github:pfassina/lazyvim-nix/v15.13.0";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { lazyvim, nixpkgs, home-manager, ... }: {
     nixosConfigurations.shitbox = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -22,6 +24,7 @@
             useUserPackages = true;
             users.vladko = import ./home.nix;
             backupFileExtension = "backup";
+          extraSpecialArgs = { inherit lazyvim; };
           };
         }
       ];

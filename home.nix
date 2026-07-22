@@ -1,10 +1,15 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lazyvim,
+  ...
+}:
 
 let
   dotfiles = "${config.home.homeDirectory}/nixos-dotfiles/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
   configs = {
-    nvim = "nvim";
+    #    nvim = "nvim";
     rofi = "rofi";
     waybar = "waybar";
     kitty = "kitty";
@@ -15,7 +20,53 @@ let
 in
 {
 
-imports = [ ./modules/pywalfox.nix ];
+  imports = [
+    ./modules/pywalfox.nix
+    lazyvim.homeManagerModules.default
+  ];
+
+  programs.lazyvim = {
+    enable = true;
+
+    extras = {
+      lang.nix.enable = true;
+      lang.python = {
+        enable = true;
+        installDependencies = true; # Install ruff
+        installRuntimeDependencies = true; # Install python3
+      };
+      lang.go = {
+        enable = true;
+        installDependencies = true; # Install gopls, gofumpt, etc.
+        installRuntimeDependencies = true; # Install go compiler
+      };
+    };
+
+    # Additional packages (optional)
+    extraPackages = with pkgs; [
+      nixd # Nix LSP
+      alejandra # Nix formatter
+      statix
+      tree-sitter
+    ];
+
+    # Only needed for languages not covered by LazyVim extras
+    treesitterParsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+      wgsl # WebGPU Shading Language
+      templ # Go templ files
+    ];
+
+    plugins = {
+      extra-lazy-opts = ''
+        return {
+          "folke/lazy.nvim",
+          opts = {
+            readme = { enabled = false },
+          },
+        }
+      '';
+    };
+  };
 
   home.username = "vladko";
   home.homeDirectory = "/home/vladko";
@@ -40,12 +91,9 @@ imports = [ ./modules/pywalfox.nix ];
   programs.zsh.enable = false;
 
   # config files loop
-  xdg.configFile = builtins.mapAttrs
-    (name: subpath: {
-      source = create_symlink "${dotfiles}/${subpath}";
-    })
-    configs;
-
+  xdg.configFile = builtins.mapAttrs (name: subpath: {
+    source = create_symlink "${dotfiles}/${subpath}";
+  }) configs;
 
   home.file.".config/sway".source = config/sway; # sway is stubborn
   home.file.".zshenv".source = config/.zshenv;
@@ -77,10 +125,11 @@ imports = [ ./modules/pywalfox.nix ];
   };
   programs.pywalfox = {
     enable = true;
-    browsers = [ "firefox" "librewolf" ]; # default, drop what you don't use
+    browsers = [
+      "firefox"
+      "librewolf"
+    ]; # default, drop what you don't use
   };
-
-
 
   wayland.windowManager.sway = {
     enable = true;
@@ -92,10 +141,10 @@ imports = [ ./modules/pywalfox.nix ];
   };
 
   home.packages = with pkgs; [
-    neovim
+    #neovim
+    vim
     ripgrep
     nil
-    nixpkgs-fmt
     nodejs
     gcc
     python3
@@ -125,7 +174,6 @@ imports = [ ./modules/pywalfox.nix ];
     thunar-volman
     thunar-archive-plugin
 
-
     fastfetch
 
     librewolf-bin
@@ -136,14 +184,14 @@ imports = [ ./modules/pywalfox.nix ];
 
     spotify
 
-    (writeShellApplication
-      {
-        name = "ns";
-        runtimeInputs = with pkgs; [ fzf nix-search-tv ];
-        text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
-      }
-    )
-
+    (writeShellApplication {
+      name = "ns";
+      runtimeInputs = with pkgs; [
+        fzf
+        nix-search-tv
+      ];
+      text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
+    })
 
   ];
 }
