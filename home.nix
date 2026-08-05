@@ -123,6 +123,33 @@ in
       icon-theme = "Papirus";
     };
   };
+
+  xdg = {
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/html" = "librewolf.desktop";
+        "x-scheme-handler/http" = "librewolf.desktop";
+        "x-scheme-handler/https" = "librewolf.desktop";
+        "x-scheme-handler/about" = "librewofl.desktop";
+        "x-scheme-handler/unknown" = "librewolf.desktop";
+      };
+    };
+    terminal-exec = {
+      enable = true;
+      settings = {
+        default = [ "kitty.desktop" ];
+      };
+    };
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 10d --keep 10";
+    flake = "/home/vladko/nixos-dotfiles";
+  };
+
   programs.pywalfox = {
     enable = true;
     browsers = [
@@ -174,6 +201,8 @@ in
     thunar-volman
     thunar-archive-plugin
 
+    qbittorrent
+
     fastfetch
 
     librewolf-bin
@@ -183,6 +212,8 @@ in
     pywalfox-native
 
     spotify
+
+    moonlight-qt
 
     (writeShellApplication {
       name = "ns";

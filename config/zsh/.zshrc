@@ -26,11 +26,23 @@ alias yayn='yay --noconfirm'
 alias lf='lfcd'
 alias batteryTimeLeft='upower -i $(upower -e | grep BAT) | grep "time to"'
 #alias nixr='sudo nixos-rebuild switch'
-alias nixr='sudo nixos-rebuild switch --flake ~/nixos-dotfiles#shitbox'
+#alias nixr='sudo nixos-rebuild switch --flake ~/nixos-dotfiles#shitbox'
+#alias nixr='sudo -V && nh os switch ~/nixos-dotfiles/'
 #alias nixr='sudo -v && nh os switch /etc/nixos'
 alias vimconf='nvim ~/nixos-dotfiles'
 
 # funcions
+nrs() {
+  # Ask for the password once, up front
+  sudo -v || return 1
+
+  # Keep the sudo timestamp alive in the background until this function exits
+  ( while true; do sudo -n true; sleep 60; kill -0 "$$" 2>/dev/null || exit; done ) &
+  local keepalive_pid=$!
+  trap 'kill "$keepalive_pid" 2>/dev/null' EXIT
+
+  nh os switch ~/nixos-dotfiles "$@"
+}
 fcd() {
     cd "$(find -type d | fzf)"
 }

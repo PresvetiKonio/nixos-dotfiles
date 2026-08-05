@@ -84,6 +84,7 @@ exec spotify
 #exec --no-startup-id nextcloud
 exec --no-startup-id libinput-gestures
 exec --no-startup-id dbus-update-activation-environment --systemd --all
+exec /run/current-system/sw/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 

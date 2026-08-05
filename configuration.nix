@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   nix.settings = {
     cores = 0;
@@ -12,9 +16,10 @@
   };
   nixpkgs.config.allowUnfree = true;
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
   networking.hostName = "shitbox"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
@@ -25,7 +30,6 @@
   # Set your time zone.
   time.timeZone = "Europe/Sofia";
 
-
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   #console = {
@@ -33,7 +37,6 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
-
 
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "caps:escape";
@@ -75,7 +78,6 @@
     hibernateDelaySec = "1h";
   };
 
-
   # Enable sound.
   services.pipewire = {
     enable = true;
@@ -96,13 +98,18 @@
   services.displayManager.ly.enable = true;
   security.polkit.enable = true;
   programs.sway.enable = true;
+  services.tailscale.enable = true;
   #services.xserver.enable = true;
   #services.xserver.windowManager.qtile.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vladko = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "input" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "video"
+      "input"
+    ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
     packages = with pkgs; [
       tree
@@ -121,7 +128,6 @@
     gamescopeSession.enable = true;
   };
 
-
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
@@ -139,19 +145,20 @@
     font-awesome_4
   ];
 
-
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -173,4 +180,3 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-
