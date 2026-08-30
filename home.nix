@@ -105,11 +105,11 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita-dark";
+      name = "Adwaita";
       package = pkgs.gnome-themes-extra;
     };
     iconTheme = {
-      name = "Papirus";
+      name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
@@ -119,8 +119,8 @@ in
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      gtk-theme = "Adwaita-dark";
-      icon-theme = "Papirus";
+      gtk-theme = "Adwaita";
+      icon-theme = "Papirus-Dark";
     };
   };
 
@@ -212,6 +212,7 @@ in
     pywalfox-native
 
     spotify
+    playerctl
 
     moonlight-qt
 
@@ -224,5 +225,6 @@ in
       text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
     })
 
+    lunar-client
   ];
 }
