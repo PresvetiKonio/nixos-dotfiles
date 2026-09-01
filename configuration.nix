@@ -42,7 +42,7 @@
   services.xserver.xkb.options = "caps:escape";
 
   services.udev.extraRules = ''
-    SUBSYSTEM=="backlight", ACTION=="add", TAG+="uaccess"
+    SUBSYSTEM=="backlight", ACTION=="add", RUN+="${pkgs.coreutils}/bin/chgrp video $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w $sys$devpath/brightness"
   '';
 
   # Enable CUPS to print documents.
