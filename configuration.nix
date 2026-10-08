@@ -38,6 +38,8 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
+programs.nix-ld.enable = true;
+
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "caps:escape";
 

@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lazyvim,
   ...
 }:
 
@@ -9,7 +8,7 @@ let
   dotfiles = "${config.home.homeDirectory}/nixos-dotfiles/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
   configs = {
-    #    nvim = "nvim";
+        nvim = "nvim";
     rofi = "rofi";
     waybar = "waybar";
     kitty = "kitty";
@@ -23,56 +22,7 @@ in
 
   imports = [
     ./modules/pywalfox.nix
-    lazyvim.homeManagerModules.default
   ];
-
-  programs.lazyvim = {
-    enable = true;
-
-    extras = {
-      lang.nix.enable = true;
-      lang.python = {
-        enable = true;
-        installDependencies = true; # Install ruff
-        installRuntimeDependencies = true; # Install python3
-      };
-      lang.go = {
-        enable = true;
-        installDependencies = true; # Install gopls, gofumpt, etc.
-        installRuntimeDependencies = true; # Install go compiler
-      };
-      lang.rust = {
-        enable = true;
-        installDependencies = true; # Install gopls, gofumpt, etc.
-        installRuntimeDependencies = true; # Install go compiler
-      };
-    };
-
-    # Additional packages (optional)
-    extraPackages = with pkgs; [
-      nixd # Nix LSP
-      alejandra # Nix formatter
-      statix
-      tree-sitter
-    ];
-
-    # Only needed for languages not covered by LazyVim extras
-    treesitterParsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
-      wgsl # WebGPU Shading Language
-      templ # Go templ files
-    ];
-
-    plugins = {
-      extra-lazy-opts = ''
-        return {
-          "folke/lazy.nvim",
-          opts = {
-            readme = { enabled = false },
-          },
-        }
-      '';
-    };
-  };
 
   home.username = "vladko";
   home.homeDirectory = "/home/vladko";
@@ -86,6 +36,30 @@ in
   };
   home.stateVersion = "26.05";
 
+  programs.neovim = {
+  enable = true;
+  defaultEditor = true;
+  viAlias = true;
+  vimAlias = true;
+  sideloadInitLua = true;
+  extraPackages = with pkgs; [
+    gcc            # treesitter parser compilation
+    gnumake
+    tree-sitter
+    ripgrep
+    fd
+    lazygit
+    nodejs         # some LSPs/plugins expect it
+    unzip
+    # LSPs/formatters (instead of Mason):
+    lua-language-server
+    stylua
+    nixd           # or nil
+    nixfmt
+  ];
+};
+
+
   # shells
   programs.bash = {
     enable = true;
@@ -93,6 +67,7 @@ in
       vim = "nvim";
     };
   };
+
 
   programs.zsh.enable = false;
 
@@ -137,7 +112,7 @@ in
         "text/html" = "librewolf.desktop";
         "x-scheme-handler/http" = "librewolf.desktop";
         "x-scheme-handler/https" = "librewolf.desktop";
-        "x-scheme-handler/about" = "librewofl.desktop";
+        "x-scheme-handler/about" = "librewolf.desktop";
         "x-scheme-handler/unknown" = "librewolf.desktop";
       };
     };
@@ -208,6 +183,7 @@ in
     package = pkgs.swayfx;
     checkConfig = false;
     config = null;
+    extraConfig = builtins.readFile ./config/sway/config;
   };
 
   home.packages = with pkgs; [

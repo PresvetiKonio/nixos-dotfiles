@@ -7,13 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lazyvim.url = "github:pfassina/lazyvim-nix";
+    #lazyvim.url = "github:pfassina/lazyvim-nix";
     #lazyvim.url = "github:pfassina/lazyvim-nix/v15.13.0";
   };
 
   outputs =
     {
-      lazyvim,
+      #lazyvim,
       nixpkgs,
       home-manager,
       ...
