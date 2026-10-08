@@ -16,6 +16,7 @@ let
     zsh = "zsh";
     wallpapers = "wallpapers";
     mako = "mako";
+    vis = "vis";
   };
 in
 {
@@ -36,6 +37,11 @@ in
         installRuntimeDependencies = true; # Install python3
       };
       lang.go = {
+        enable = true;
+        installDependencies = true; # Install gopls, gofumpt, etc.
+        installRuntimeDependencies = true; # Install go compiler
+      };
+      lang.rust = {
         enable = true;
         installDependencies = true; # Install gopls, gofumpt, etc.
         installRuntimeDependencies = true; # Install go compiler
@@ -255,6 +261,17 @@ in
     jellyfin-desktop
 
     moonlight-qt
+
+    vesktop
+
+    sideband
+
+    onlyoffice-desktopeditors
+
+    vis
+    racket
+
+    rustup
 
     (writeShellApplication {
       name = "ns";
