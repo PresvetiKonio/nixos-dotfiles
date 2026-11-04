@@ -30,6 +30,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "backup";
+              extraSpecialArgs = { inherit inputs; };
               users.vladko = import ./modules/home;
             };
           }
