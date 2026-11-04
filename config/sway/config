@@ -75,6 +75,7 @@ gaps inner 5
 # Autostart
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id net-merge tray
 exec --no-startup-id autotiling-rs
 exec --no-startup-id wayneko --layer overlay --follow-pointer false
 #exec --no-startup-id redshift -c ~/.config/redshift/config
@@ -101,7 +102,7 @@ bindsym $mod+i exec steam -silent -applaunch 250900
 input * {
     xkb_layout us,bg
     xkb_variant ,phonetic
-    xkb_options grp:alt_shift_toggle,caps:escape
+    xkb_options grp:alt_shift_toggle
 }
 input type:touchpad {
     tap enabled
