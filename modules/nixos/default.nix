@@ -11,5 +11,6 @@
     ./users.nix
     ./net-merge.nix
     ./owly.nix
+    ./flatpack.nix
   ];
 }

@@ -10,6 +10,7 @@
     };
     net-merge.url = "github:rohit267/net-merge";
     owly.url = "github:t4t5/owly";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
   };
 
   outputs =

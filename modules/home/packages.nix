@@ -71,7 +71,7 @@ in
     vscode
 
     krita
-    unstable.photocraft
+    #unstable.photocraft
 
     # Games
     lunar-client
