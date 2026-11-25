@@ -12,5 +12,6 @@
     ./net-merge.nix
     ./owly.nix
     ./flatpack.nix
+    ./plasma.nix
   ];
 }

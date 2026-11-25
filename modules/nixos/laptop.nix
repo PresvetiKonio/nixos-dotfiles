@@ -16,6 +16,8 @@
     };
   };
 
+  services.power-profiles-daemon.enable = false;
+
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend-then-hibernate";
     HandleLidSwitchExternalPower = "lock";
